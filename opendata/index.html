@@ -1,60 +1,73 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="./icons8-organic-food-48.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Indie+Flower"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="main.css" />
 
-    <link rel="stylesheet" href="main.css"></link>
+    <title>Taiwan Countryside restaurant</title>
+  </head>
 
-    <title>Countryside food</title>
-</head>
-
-<body>
-    <!--header start-->
-    <header class="header">
-        
-        <h1>Taiwan Countryside food</h1>
-        <select id="areaId"></select>
-
-
-        <div class="hotRank">
-            <p>Popular Area</p>
-            <input type="button" class="btn" value="苗栗縣">
-            <input type="button" class="btn" value="新竹縣">
-            
-        </div>
-    </header>
-
-   
-    <!--title start-->
-    <div class="title"></div>
-
-
-
+  <body>
+    <div class="bgc"></div>
     <!--container start-->
-    <div class="container"></div>
+    <div class="gototp"><i class="Large material-icons">arrow_upward</i></div>
+    <div class="container">
+      <div class="header">
+        <img
+          id="mainicon"
+          src="https://img.icons8.com/color/150/000000/organic-food.png"
+        />
+        <h2 class="bigTitle">
+          Taiwan Countryside Restaurant
+        </h2>
+      </div>
+      <select class=" browser-default  custom-select area "> </select>
 
-
-
-
+      <div class="row info-card"></div>
+      <footer class="center-align">
+        Source:&nbsp;
+        <a href="https://data.gov.tw/dataset/6037">data.gov.tw</a><br /><br />
+      </footer>
+    </div>
 
     <!--footer start-->
-    <footer>
-       
-         Source:&nbsp;<a href='https://data.gov.tw/dataset/6037'>data.gov.tw</a>
-      
-    </footer>
+
     <!--footer end-->
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script type="text/javascript" src="main.js">
-    </script>
-</body>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
+    <script type="text/javascript" src="main.js"></script>
+  </body>
 </html>
