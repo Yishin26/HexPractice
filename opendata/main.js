@@ -1,13 +1,17 @@
 //綁定html元素
+var url = "https://yishin26.github.io/HexPractice/opendata/mydata.json";
 var infoCard = document.querySelector(".info-card");
 var cityTitle = document.querySelector(".cityTitle");
 var area = document.querySelector(".area");
-var data;
+var data, selector; //所有資料，所選城市
+var nowAtPage;
+var nowTotalPage;
+var page = document.querySelector(".page");
+var totalPage;
 
 //資料請求
 callAjax();
 function callAjax() {
-  var url = "https://yishin26.github.io/HexPractice/opendata/mydata.json";
   var xhr;
 
   if (window.XMLHttpRequest) {
@@ -46,9 +50,6 @@ function callAjax() {
         var alldata = JSON.parse(xhr.responseText);
         data = alldata;
         showSelectList();
-
-        area.addEventListener("change", updateList, false);
-
         //showdata(data);
       } else {
         alert("There was a problem with the request.");
@@ -56,6 +57,25 @@ function callAjax() {
     }
   };
 }
+
+//主要偵測選單改變時，呼叫內容更新
+area.addEventListener(
+  "change",
+  function(e) {
+    selector = e.target.value;
+
+    // 不是選到請選擇在去做執行
+    if (selector != "") {
+      // 重串url條件
+      //var newurl = url + "&q=" + selector;
+      // callAjax(newurl, 1);
+
+      // callAjax(newurl, 2);
+      updateList(1);
+    }
+  },
+  false
+);
 
 //省略字數
 function truncateText(txt, maxLength) {
@@ -65,11 +85,12 @@ function truncateText(txt, maxLength) {
   return txt;
 }
 
-area.addEventListener("change", updateList, false);
-//獲取選項的函式
+//獲取選項的函式，先濾掉重複的城市名稱
 var menus = [];
 function showSelectList() {
-  initial();
+  //初始化預設為苗栗
+  selector = "苗栗縣";
+  updateList(1);
   for (var i = 0; i < data.length; i++) {
     var isNew = true;
     for (var m = 0; m < menus.length; m++) {
@@ -93,62 +114,73 @@ function showSelectList() {
 }
 
 //當滑鼠點擊或更換時促發
-function updateList(e) {
-  var selector = e.target.value;
-  var boxStr = "";
+function updateList(goPage) {
+  var totalItem = 0; //目前總共幾筆
+  var tempItem = [];
   for (var i = 0; i < data.length; i++) {
     if (selector == data[i].City) {
-      boxStr +=
-        " <div class='col s12 m4'><div class='card z-depth-4'> <div class='card-image'><img class='pic' src=" +
-        data[i].PicURL +
-        " />  </div>";
-
-      boxStr +=
-        " <div class='card-content'><span class='card-title'>" +
-        data[i].Name +
-        "</span><p ><strong><i class='Small material-icons'>map</i>地址：</strong>" +
-        data[i].Address +
-        "</p>";
-      boxStr +=
-        "<p ><strong><i class='Small material-icons'>phone</i>電話：</strong>" +
-        data[i].Tel +
-        "</p>";
-      boxStr +=
-        "<p class='hostWords'><strong><i class='Small material-icons'>info</i>簡介：</strong><br/>" +
-        truncateText(data[i].HostWords, 250) + //限制字數為300
-        "</p> </div></div></div>";
+      //先算有幾個
+      totalItem++;
+      tempItem.push(data[i]);
     }
   }
+
+  var currentPage = 1, // 目前頁數、總頁數， 一頁6筆資料
+    totalPage = 0,
+    perPage = 6,
+    totalPage = Math.ceil(totalItem / perPage); //無條件進位
+
+  //------
+  var startItem, endItem;
+  if (goPage == totalPage) {
+    var minusItem = totalItem - totalPage * perPage;
+
+    if (minusItem == 0) {
+      //判斷最後一頁是幾筆，用 = 0 就是10筆
+      startItem = (totalPage - 1) * perPage;
+      endItem = totalItem;
+    } else {
+      // 小於10筆
+      startItem = (totalPage - 1) * perPage;
+      endItem = totalItem;
+    }
+  } else {
+    startItem = perPage * (goPage - 1);
+    endItem = goPage * 6;
+  }
+  nowTotalPage = totalPage;
+  var boxStr = "";
+
+  for (var i = startItem; i < endItem; i++) {
+    boxStr +=
+      " <div class='col s12 m4'><div class='card z-depth-4'> <div class='card-image'><img class='pic' src=" +
+      tempItem[i].PicURL +
+      " />  </div>";
+
+    boxStr +=
+      " <div class='card-content'><span class='card-title'>" +
+      tempItem[i].Name +
+      "</span><p ><strong><i class='Small material-icons'>map</i>地址：</strong>" +
+      tempItem[i].Address +
+      "</p>";
+    boxStr +=
+      "<p ><strong><i class='Small material-icons'>phone</i>電話：</strong>" +
+      tempItem[i].Tel +
+      "</p>";
+    boxStr +=
+      "<p class='hostWords'><strong><i class='Small material-icons'>info</i>簡介：</strong><br/>" +
+      truncateText(tempItem[i].HostWords, 250) + //限制字數為300
+      "</p> </div></div></div>";
+  }
+
+  //------
+  // 紀錄目前頁數用來點選上下頁用
+  currentPage = goPage;
+
+  nowAtPage = currentPage;
   infoCard.innerHTML = boxStr;
-}
 
-//畫面進來時自動出現的
-function initial() {
-  var str = "";
-  for (var i = 0; i < data.length; i++) {
-    if (data[i].City == "苗栗縣") {
-      str +=
-        " <div class='col s12 m4'><div class='card z-depth-4'> <div class='card-image'><img class='pic' src=" +
-        data[i].PicURL +
-        " />  </div>";
-
-      str +=
-        " <div class='card-content'><span class='card-title'>" +
-        data[i].Name +
-        "</span><p ><strong><i class='Small material-icons'>map</i>地址：</strong>" +
-        data[i].Address +
-        "</p>";
-      str +=
-        "<p ><strong><i class='Small material-icons'>phone</i>電話：</strong>" +
-        data[i].Tel +
-        "</p>";
-      str +=
-        "<p class='hostWords'><strong><i class='Small material-icons'>info</i>簡介：</strong><br/>" +
-        truncateText(data[i].HostWords, 250) + //限制字數為300
-        "</p> </div></div></div>";
-    }
-  }
-  infoCard.innerHTML = str;
+  renderPage(totalPage);
 }
 
 // 當有滾動的時候
@@ -164,4 +196,70 @@ window.onscroll = function() {
 
 document.querySelector(".gototp").addEventListener("click", function(e) {
   scrollTo(0, 0);
+});
+
+// 渲染有幾頁用
+function renderPage(totalPage) {
+  if (data.length <= 0) {
+    // 沒有資料的時候不顯示筆數
+    page.style.display = "none";
+  } else {
+    page.style.display = "";
+    var tempNum = [];
+    // 模板
+    var prevPage =
+      '<a href="#" class="pageicon medium material-icons" data-num="-1">arrow_back</a> &nbsp;';
+    var nexPage =
+      ' &nbsp;<a href="#"class="pageicon  medium material-icons" data-num="1">arrow_forward</a>';
+    if (totalPage > 0) {
+      var nbrHtml = "";
+      for (var i = 0; i < totalPage; i++) {
+        var tempNbr =
+          '<a class="pageNum" href="#" data-page="' +
+          (i + 1) +
+          '">' +
+          (i + 1) +
+          "</a> ";
+        tempNum.push(i + 1);
+        nbrHtml += tempNbr;
+      }
+
+      page.innerHTML = prevPage + nbrHtml + nexPage;
+    }
+  }
+}
+
+// 頁次偵聽
+page.addEventListener("click", function(e) {
+  e.preventDefault();
+  if (e.target.nodeName == "A") {
+    // 要前往哪一頁
+    var goPage;
+    var pervNext = Number(e.target.dataset.num);
+
+    // 當有按下下一頁或上頁
+
+    if (pervNext == -1 || pervNext == 1) {
+      if (pervNext == -1) {
+        if (nowAtPage + pervNext < 1) {
+          return false;
+        }
+        goPage = nowAtPage - 1;
+      } else if (pervNext == 1) {
+        //console.log(nowTotalPage);
+        if (nowAtPage + pervNext > nowTotalPage) {
+          return false;
+        }
+
+        goPage = nowAtPage + 1;
+      }
+    } else {
+      goPage = Number(e.target.dataset.page);
+      if (nowAtPage == goPage) {
+        return false;
+      }
+    }
+
+    updateList(goPage);
+  }
 });
