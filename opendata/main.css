@@ -72,11 +72,12 @@ p.hostWords {
   text-align: justify;
   overflow: hidden;
 }
-@media (max-width: 1023px) {
-  .map {
-    display: none;
-  }
+
+.map {
+  width: 240px;
+  height: 280px;
 }
+
 @media (min-width: 1024px) {
   .map {
     float: right;
@@ -148,21 +149,18 @@ body {
   background-color: rgb(248, 248, 225);
 }
 
-@media (max-width: 1023) {
-  .map {
-    display: none;
-  }
-}
-
 @media (max-width: 768px) {
   .map {
-    display: none;
+    float: unset;
+    margin-left: 10%;
+    margin-bottom: 20px;
   }
   .info-card {
     margin-top: 20px;
   }
   .bigTitle {
-    font-size: 35px;
+    font-size: 26px;
+    line-height: 1.5;
   }
   .card-image img {
     border-radius: 10px 10px 0px 0px !important;
