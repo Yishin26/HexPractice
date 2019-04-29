@@ -100,6 +100,7 @@ p.hostWords {
     font-family: "Indie Flower", cursive;
     padding-top: 30px;
     position: relative;
+    font-size: 35pt;
   }
   .custom-select {
     width: 30%;
@@ -151,8 +152,8 @@ body {
 
 @media (max-width: 768px) {
   .map {
-    float: unset;
-    margin-left: 10%;
+    width: 100%;
+    margin-top: -15%;
     margin-bottom: 20px;
   }
   .info-card {
@@ -169,4 +170,11 @@ body {
     text-align: center;
     margin-top: 20px;
   }
+}
+
+@media (max-width: 320px) {
+
+.bigTitle {
+  font-size: 20px;
+  line-height: 1.5;
 }
