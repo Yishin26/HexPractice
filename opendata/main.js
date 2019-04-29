@@ -8,6 +8,7 @@ var nowAtPage;
 var nowTotalPage;
 var page = document.querySelector(".page");
 var totalPage;
+var map = document.querySelectorAll(".subArea");
 
 //資料請求
 callAjax();
@@ -64,13 +65,20 @@ area.addEventListener(
   function(e) {
     selector = e.target.value;
 
+    for (var a = 0; a < map.length; a++) {
+      map[a].style.fill = "#7c7c7c";
+      if (selector == map[a].getAttribute("name")) {
+        var selectorID = map[a].getAttribute("id");
+        var targetCity = document.getElementById(selectorID);
+        targetCity.style.fill = "rgb(3, 92, 18)";
+      }
+    }
+
     // 不是選到請選擇在去做執行
     if (selector != "") {
       // 重串url條件
       //var newurl = url + "&q=" + selector;
-      // callAjax(newurl, 1);
 
-      // callAjax(newurl, 2);
       updateList(1);
     }
   },
@@ -90,6 +98,15 @@ var menus = [];
 function showSelectList() {
   //初始化預設為苗栗
   selector = "苗栗縣";
+  for (var a = 0; a < map.length; a++) {
+    map[a].style.fill = "#7c7c7c";
+    if (selector == map[a].getAttribute("name")) {
+      var selectorID = map[a].getAttribute("id");
+      var targetCity = document.getElementById(selectorID);
+      targetCity.style.fill = "rgb(3, 92, 18)";
+    }
+  }
+
   updateList(1);
   for (var i = 0; i < data.length; i++) {
     var isNew = true;
@@ -113,7 +130,7 @@ function showSelectList() {
   area.innerHTML = addOpstion;
 }
 
-//當滑鼠點擊或更換時促發
+//當滑鼠點擊或更換時觸發
 function updateList(goPage) {
   var totalItem = 0; //目前總共幾筆
   var tempItem = [];
@@ -263,3 +280,25 @@ page.addEventListener("click", function(e) {
     updateList(goPage);
   }
 });
+
+//控制地圖
+
+for (var i = 0; i < map.length; i++) {
+  map[i].addEventListener(
+    "click",
+    function(e) {
+      for (var a = 0; a < map.length; a++) {
+        map[a].style.fill = "#7c7c7c";
+      }
+      selector = e.target.getAttribute("name");
+      selectorID = e.target.getAttribute("id");
+      console.log(selector + "," + selectorID);
+
+      var targetCity = document.getElementById(selectorID);
+      targetCity.style.fill = "rgb(3, 92, 18)";
+      area.value = selector;
+      updateList(1);
+    },
+    false
+  );
+}

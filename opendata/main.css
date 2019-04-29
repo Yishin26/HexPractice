@@ -71,8 +71,25 @@ p.hostWords {
   text-align: justify;
   overflow: hidden;
 }
-
+@media (max-width: 1023px) {
+  .map {
+    display: none;
+  }
+}
 @media (min-width: 1024px) {
+  .map {
+    float: right;
+    width: 240px;
+    height: 280px;
+    position: absolute;
+    top: -45px;
+    right: 210px;
+  }
+
+  .map .subArea:hover {
+    fill: rgb(3, 92, 18);
+    cursor: pointer;
+  }
   .info-card {
     margin-top: -30px;
   }
@@ -129,7 +146,16 @@ body {
   background-color: rgb(248, 248, 225);
 }
 
+@media (max-width: 1023) {
+  .map {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
+  .map {
+    display: none;
+  }
   .info-card {
     margin-top: 20px;
   }
