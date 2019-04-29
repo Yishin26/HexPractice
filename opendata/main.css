@@ -173,8 +173,8 @@ body {
 }
 
 @media (max-width: 320px) {
-
-.bigTitle {
-  font-size: 20px;
-  line-height: 1.5;
+  .bigTitle {
+    font-size: 20px;
+    line-height: 1.5;
+  }
 }
