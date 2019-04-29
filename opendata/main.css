@@ -6,6 +6,7 @@ html {
   color: orange;
   font-size: 20px;
   margin: 0px 5px;
+  position: relative;
 }
 .page .pageNum:hover,
 .page .pageNum:active {
@@ -83,7 +84,7 @@ p.hostWords {
     height: 280px;
     position: absolute;
     top: -45px;
-    right: 210px;
+    left: 66%;
   }
 
   .map .subArea:hover {
@@ -97,6 +98,7 @@ p.hostWords {
     color: rgba(255, 123, 0, 0.932);
     font-family: "Indie Flower", cursive;
     padding-top: 30px;
+    position: relative;
   }
   .custom-select {
     width: 30%;
